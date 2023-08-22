@@ -3,6 +3,7 @@
 void execute_command(char **argv);
 void store_token_in_array(char **argv, char *s, char *delim);
 int total_len_of_string(char *s, char *delim );
+void run_shell(char **argv);
 int main()
 {
 	char *buffer = NULL;
@@ -38,8 +39,8 @@ int main()
 		store_token_in_array(argv, buffer, delim);
 
 		//execute command
-		execute_command(argv);
-
+		//execute_command(argv);
+		run_shell(argv);
 		free(buffer_copy);
 	}
 	return (0);
@@ -87,5 +88,19 @@ void execute_command(char **argv)
 			perror(argv[0]);
 			exit(1);
 		}
+	}
+}
+
+void run_shell(char **argv)
+{
+	pid_t child_pid = fork();
+
+	if (child_pid == 0)
+	{
+		execute_command(argv);
+	}
+	else
+	{
+		wait(NULL);
 	}
 }
