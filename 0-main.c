@@ -13,13 +13,13 @@ int main()
 	char **argv;
 	int len_of_argv;
 
+	buffer = (char *) malloc(buffer_size * sizeof(char));
 	while(true)
 	{
 		printf("#cisfun$ ");
 		buffer_len = getline(&buffer, &buffer_size, stdin);
 
 		buffer_copy = malloc(sizeof(char) * buffer_len);
-		printf("%s - copy\n", buffer_copy);
 
 		if(buffer_len == -1)
 		{
@@ -32,15 +32,13 @@ int main()
 		//get the number of strings(commands, and arguments)
 		len_of_argv = total_len_of_string(buffer_copy, delim);
 		
-		argv = malloc(len_of_argv * sizeof(char));
+		argv =(char **) malloc((len_of_argv + 1) * sizeof(char));
 		
 		//store the commands in the argv array
-		store_token_in_array(argv, buffer_copy, delim);
+		store_token_in_array(argv, buffer, delim);
 
 		//execute command
 		execute_command(argv);
-
-		printf("%s\n", buffer_copy);
 
 		free(buffer_copy);
 	}
@@ -68,17 +66,13 @@ int total_len_of_string(char *s, char *delim )
 void store_token_in_array(char **argv, char *s, char *delim)
 {
 	int i = 0;
-	char *token;
-
-	token = strtok(s, delim);
-	printf("%s - s\n", s);
+	char *token = strtok(s, " \t\r\n");
 
 	while (token != NULL)
 	{
 		argv[i] = malloc(sizeof(char) * strlen(token));
 		strcpy(argv[i], token);
-		printf("%s\n", argv[i]);
-		token = strtok(NULL, delim);
+		token = strtok(NULL, " \t\r\n");
 		i++;
 	}
 	argv[i] = NULL;
