@@ -9,10 +9,11 @@ char *concat(char *dest, char *s1, char *s2)
     {
         dest[i] = s1[i];
         i++;
+   printf("%c\n", s1[i]); 
     }
 
-    
-    j = i;
+    dest[i] = '/'; 
+    j = i + 1;
     i = 0;
     
     while(s2[i] != '\0')
@@ -21,6 +22,5 @@ char *concat(char *dest, char *s1, char *s2)
         j++;
         i++;
     }
-    
     return dest;
 }

@@ -67,12 +67,17 @@ int main()
 	}
 	else
 	{
-		printf("okay - %s\n", dir[0]);
-		/**while (i < len_of_dir_in_path)
+		while (i < len_of_dir_in_path)
 		{
-			printf("%s - condition\n", dir[i]);
+			char s[1000] = "";
+			strcat(s, dir[i]);
+			strcat(s, "/");
+			strcat(s, cmd[0]);
+
+			if (check_if_file_exist(s) == 0)
+				printf("command is valid from short\n");
 			i++;
-		}*/
+		}
 	}
 
 	return (0);
