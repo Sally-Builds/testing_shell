@@ -15,6 +15,12 @@ int main()
 	int len_of_argv;
 
 	buffer = (char *) malloc(buffer_size * sizeof(char));
+
+	if (buffer == NULL)
+	{
+		perror("err");
+		return(1);
+	}
 	while(true)
 	{
 		printf("#cisfun$ ");
@@ -24,7 +30,6 @@ int main()
 
 		if(buffer_len == -1)
 		{
-			perror("error reading from stdin");
 			return(1);
 		}
 
@@ -33,7 +38,7 @@ int main()
 		//get the number of strings(commands, and arguments)
 		len_of_argv = total_len_of_string(buffer_copy, delim);
 		
-		argv =(char **) malloc((len_of_argv + 1) * sizeof(char));
+		argv =(char **) malloc(len_of_argv * sizeof(char));
 		
 		//store the commands in the argv array
 		store_token_in_array(argv, buffer, delim);
@@ -56,9 +61,10 @@ int total_len_of_string(char *s, char *delim )
 
 	while(token != NULL)
 	{
-		token = strtok(NULL, delim);
 		i++;
+		token = strtok(NULL, delim);
 	}
+	i++;
 
 	return (i);
 }
@@ -81,6 +87,9 @@ void store_token_in_array(char **argv, char *s, char *delim)
 
 void execute_command(char **argv)
 {
+	if(*argv[0] == '\0')
+		exit(1);	
+
 	if (argv)
 	{
 		if (execve(argv[0], argv, NULL) == -1)
@@ -94,6 +103,7 @@ void execute_command(char **argv)
 void run_shell(char **argv)
 {
 	pid_t child_pid = fork();
+
 
 	if (child_pid == 0)
 	{
