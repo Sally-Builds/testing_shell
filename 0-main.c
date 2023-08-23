@@ -44,7 +44,6 @@ int main()
 		store_token_in_array(argv, buffer, delim);
 
 		//execute command
-		//execute_command(argv);
 		run_shell(argv);
 		free(buffer_copy);
 	}
